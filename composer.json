@@ -1,5 +1,5 @@
 {
-  "name": "discourse/wp-discourse",
+  "name": "blueoceanideas/wp-discourse",
   "type": "wordpress-plugin",
   "license": "GPL-3.0-only",
   "description": "WordPress plugin that allows you to use Discourse as a community engine for your WordPress blog.",
