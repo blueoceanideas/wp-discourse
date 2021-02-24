@@ -18,7 +18,7 @@ trait PluginUtilities {
 	 * @return array
 	 */
 	protected function get_options() {
-		static $options = array();
+		$options = array();
 
 		if ( empty( $options ) ) {
 			$discourse_option_groups = get_option( 'discourse_option_groups' );
