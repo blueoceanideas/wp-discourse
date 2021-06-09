@@ -243,6 +243,19 @@ class PublishSettings {
 			'discourse_publishing_settings_section'
 		);
 
+		if ( version_compare( get_bloginfo( 'version' ), '5.6', '>=' ) ) {
+			add_settings_field(
+				'discourse_exclude_tags',
+				__( 'Exclude Posts By Tag', 'wp-discourse' ),
+				array(
+					$this,
+					'tags_select',
+				),
+				'discourse_publish',
+				'discourse_publishing_settings_section'
+			);
+		}
+
 		// These options should be set for the whole network when multi-site support is enabled.
 		if ( ! $this->use_network_publish_settings ) {
 			add_settings_field(
@@ -274,6 +287,17 @@ class PublishSettings {
 				array(
 					$this,
 					'direct_db_publication_flags',
+				),
+				'discourse_publish',
+				'discourse_publishing_settings_section'
+			);
+
+			add_settings_field(
+				'discourse_verbose_publication_logs',
+				__( 'Verbose Publication Logging', 'wp-discourse' ),
+				array(
+					$this,
+					'verbose_publication_logs',
 				),
 				'discourse_publish',
 				'discourse_publishing_settings_section'
@@ -539,6 +563,17 @@ class PublishSettings {
 	}
 
 	/**
+	 * Outputs markup for the tags select input.
+	 */
+	public function tags_select() {
+		$this->form_helper->tags_select_input(
+			'exclude_tags',
+			$this->form_helper->post_tags(),
+			__( 'Do not auto-publish posts to Discourse if they have one of these tags. Hold the <strong>control</strong> button (Windows) or the <strong>command</strong> button (Mac) to select multiple tags.', 'wp-discourse' )
+		);
+	}
+
+	/**
 	 * Outputs markup for the discourse_direct_db_publication_meta checkbox.
 	 */
 	public function direct_db_publication_flags() {
@@ -551,6 +586,24 @@ class PublishSettings {
 			),
 			__(
 				'Potentially prevents concurrency issues arising from object cache usage.',
+				'wp-discourse'
+			)
+		);
+	}
+
+	/**
+	 * Outputs markup for the discourse_verbose_publication_logs checkbox.
+	 */
+	public function verbose_publication_logs() {
+		$this->form_helper->checkbox_input(
+			'verbose-publication-logs',
+			'discourse_publish',
+			__(
+				'Enable verbose logs for publication.',
+				'wp-discourse'
+			),
+			__(
+				'Will log successful publications as well as errors.',
 				'wp-discourse'
 			)
 		);
